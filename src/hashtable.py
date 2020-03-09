@@ -51,7 +51,23 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        # if not full add value inside
+        if None in self.capacity:  
+            self.storage[self._hash_mod(key)] = value
+        # if full , make room by resizing and then add value inside 
+        else:
+            self.resize()
+            self.storage[self._hash_mod(key)] = value  
+           
+            
+            
+       
+        
+        
+        
+        
+         
+        
 
 
 
@@ -63,6 +79,8 @@ class HashTable:
 
         Fill this in.
         '''
+        # hash the key, get the index
+        # use the original key with linked list to delete the node
         pass
 
 
@@ -74,7 +92,14 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        try:
+            retrieved = self.storage[self._hash_mod(key)]
+            return retrieved 
+        except:
+            return None
+            
+                
+            
 
 
     def resize(self):
@@ -84,7 +109,15 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        new_capacity = self.capacity * 2  #3   [1,2,3]
+        new_storage = [None] * new_capacity  #6 none  [none,none,none,none,none,none]
+        for i in range(self.capacity):
+            new_storage[i] = self.storage[i]
+        self.storage = new_storage  # update storage
+        self.capacity = new_capacity  #update capacity 
+            
+
+        
 
 
 
@@ -115,3 +148,8 @@ if __name__ == "__main__":
     print(ht.retrieve("line_3"))
 
     print("")
+    
+    hasht = HashTable(4)
+    print(hasht.insert(3, 'jordan'))
+    
+
