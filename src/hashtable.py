@@ -1,3 +1,4 @@
+
 # '''
 # Linked List hash table key/value pair
 # '''
@@ -6,6 +7,8 @@ class LinkedPair:
         self.key = key
         self.value = value
         self.next = None
+    def __str__(self):
+        return (f"Key: {self.key}, Value: {self.value}")    
 
 class HashTable:
     '''
@@ -15,6 +18,9 @@ class HashTable:
     def __init__(self, capacity):
         self.capacity = capacity  # Number of buckets in the hash table
         self.storage = [None] * capacity
+        
+  
+            
 
 
     def _hash(self, key):
@@ -51,10 +57,25 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
-
-
-
+      
+        index = self._hash_mod(key) # index = number within storage range
+        
+        if self.storage[index] is not None:
+            print('Warning: Its Full')
+            current_node = self.storage[index]
+            while current_node.next:
+                if current_node.key == key:
+                    current_node.value = value
+                    break
+                elif current_node.next.next == None:
+                    current_node.next.next = LinkedPair(key, value)
+                    break
+                current_node = current_node.next
+        else:
+            self.storage[index] = LinkedPair(key,value)       
+            
+           
+ 
     def remove(self, key):
         '''
         Remove the value stored with the given key.
@@ -63,8 +84,14 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
-
+        # hash the key, get the index
+        # use the original key with linked list to delete the node
+        index = self._hash_mod(key)
+        
+        if self.storage[index] is not None:
+            self.storage[index] = None
+        else:
+            print('Warning: Key not found')    
 
     def retrieve(self, key):
         '''
@@ -74,7 +101,28 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        # try:
+        #     retrieved = self.storage[self._hash_mod(key)]
+        #     return retrieved 
+        # except:
+        #     return None
+        
+        
+        ###3
+        index = self._hash_mod(key)
+        if self.storage[index] == None:
+            return None
+        else:
+            current_node = self.storage[index]
+            while current_node:
+                if current_node.key == key:
+                    return current_node.value
+                current_node = current_node.next
+        
+        return self.storage[index]
+            
+                
+            
 
 
     def resize(self):
@@ -84,7 +132,29 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        
+        self.capacity = self.capacity * 2
+        newHash = HashTable(self.capacity)
+        for i in (self.storage)
+        # new_capacity = self.capacity * 2  # [1,2,3] capacity is 3
+        # new_storage = [None] * new_capacity  # makes 6 none's [none,none,none,none,none,none]
+        # for i in range(self.capacity):
+        #     new_storage[i] = self.storage[i]
+        # self.storage = new_storage  # update storage
+        # self.capacity = new_capacity  # update capacity 
+        
+        
+        ###
+        # old_storage = self.storage.copy()
+        # self.capacity = self.capacity * 2
+        # self.storage = [None] * self.capacity
+        
+        # for bucket_item in old_storage:
+        #     self.insert(bucket_item.key, bucket_item.value)
+            
+            
+
+        
 
 
 
@@ -95,7 +165,7 @@ if __name__ == "__main__":
     ht.insert("line_2", "Filled beyond capacity")
     ht.insert("line_3", "Linked list saves the day!")
 
-    print("")
+    print(ht.storage,"storageeeeeee")
 
     # Test storing beyond capacity
     print(ht.retrieve("line_1"))
@@ -115,3 +185,10 @@ if __name__ == "__main__":
     print(ht.retrieve("line_3"))
 
     print("")
+    
+
+    
+  
+    
+    
+
